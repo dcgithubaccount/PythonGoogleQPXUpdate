@@ -22,7 +22,7 @@ class Struct:
 class GoogleFlight(object):
 
    def __init__(self, key):
-       self.URL = 'https://www.googleapis.com/qpxExpress/v1/trips/search?key=%s'%key
+       self.URL = f'https://www.googleapis.com/qpxExpress/v1/trips/search?key={key}'
        self.KEY = key
        self.request = None
        self.params = {}
@@ -56,19 +56,21 @@ class GoogleFlight(object):
 
 
    def print_trip(self,trip):
-      Slice = 0
-      for s in trip["slice"]:
-         Slice = Slice + 1
-         print ("   Slice %s" % Slice)
-         for flight in s["segment"]:
-            flight_number = flight["flight"]["number"]
-            flight_carrier = flight["flight"]["carrier"]
-            flight_origin = flight['leg'][0]['origin']
-            flight_departureTime = flight['leg'][0]['departureTime']
-            flight_destination = flight['leg'][0]['destination']
-            flight_arrivalTime = flight['leg'][0]['arrivalTime']
-            flight_mileage = flight['leg'][0]['mileage']
-            print ("      %s%s %s %s %s %s %s mileage"%(flight_carrier, flight_number, flight_origin, flight_departureTime, flight_destination, flight_arrivalTime, flight_mileage))
+       Slice = 0
+       for s in trip["slice"]:
+           Slice = Slice + 1
+           print(f"   Slice {Slice}")
+           for flight in s["segment"]:
+               flight_number = flight["flight"]["number"]
+               flight_carrier = flight["flight"]["carrier"]
+               flight_origin = flight['leg'][0]['origin']
+               flight_departureTime = flight['leg'][0]['departureTime']
+               flight_destination = flight['leg'][0]['destination']
+               flight_arrivalTime = flight['leg'][0]['arrivalTime']
+               flight_mileage = flight['leg'][0]['mileage']
+               print(
+                   f"      {flight_carrier}{flight_number} {flight_origin} {flight_departureTime} {flight_destination} {flight_arrivalTime} {flight_mileage} mileage"
+               )
 
 
    def print_result(self):
@@ -84,7 +86,7 @@ class GoogleFlight(object):
    def lowest(self):
       if self.trips != None:
         trip = self.data["trips"]["tripOption"][0]
-        
+
         return Struct(**trip)
       else:
          print ("No data yet")
